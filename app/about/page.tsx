@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
 import AuthModal from '@/components/AuthModal';
 import { Target, Eye, Heart, Users, Award, Handshake, DollarSign, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function About() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -239,12 +240,16 @@ export default function About() {
             Arcade Atelier is here to help you succeed, with engineering by ingenuity—and heart. Let's build a better tomorrow, together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium">
-              Start Your Project
-            </button>
-            <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium">
-              Contact Us
-            </button>
+            <Link href="/auth?mode=signup">
+              <button className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                Start Your Project
+              </button>
+            </Link>
+            <Link href="/contact">
+              <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium">
+                Contact Us
+              </button>
+            </Link>
           </div>
         </div>
       </section>

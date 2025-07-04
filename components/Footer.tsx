@@ -2,16 +2,46 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUp, Mail, ExternalLink, Building, Award, Shield } from 'lucide-react';
+import { ArrowUp, Mail, ExternalLink, Building, Award, Shield, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle subscription logic here
-    console.log('Subscribing email:', email);
-    setEmail('');
+    
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setEmail('');
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(data.error || 'Failed to subscribe');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const scrollToTop = () => {
@@ -98,20 +128,49 @@ export default function Footer() {
             <p className="text-gray-300 text-sm">
               Sign up to get latest updates and insights from our team.
             </p>
+            
+            {/* Success Message */}
+            {submitStatus === 'success' && (
+              <div className="p-3 bg-green-800 border border-green-600 rounded-lg flex items-center space-x-2">
+                <CheckCircle className="w-4 h-4 text-green-400" />
+                <p className="text-green-200 text-sm">Successfully subscribed!</p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {submitStatus === 'error' && (
+              <div className="p-3 bg-red-800 border border-red-600 rounded-lg flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 text-red-400" />
+                <p className="text-red-200 text-sm">{errorMessage}</p>
+              </div>
+            )}
+
             <form onSubmit={handleSubscribe} className="space-y-2">
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  // Clear error when user starts typing
+                  if (submitStatus === 'error') {
+                    setSubmitStatus('idle');
+                    setErrorMessage('');
+                  }
+                }}
                 placeholder="Enter your email"
                 className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                disabled={isSubmitting}
               />
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={isSubmitting || !email}
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
               >
-                Subscribe
+                {isSubmitting ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                ) : null}
+                {isSubmitting ? 'Subscribing...' : 'Subscribe'}
               </button>
             </form>
           </div>
@@ -121,12 +180,15 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-8 text-center">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2025 Arcade Atelier. All rights reserved.
+              © 2024 Arcade Atelier. All rights reserved.
             </p>
             <div className="flex items-center space-x-6">
               <span className="text-gray-400 text-sm">
                 We use cookies to improve your experience
               </span>
+              <div className="text-green-400 text-sm">
+                <strong>Pro Tip:</strong> Always check your BIM file compatibility before sharing!
+              </div>
             </div>
           </div>
         </div>
