@@ -12,9 +12,10 @@ interface HeaderProps {
   onSignIn?: () => void;
   onSignUp?: () => void;
   onSignOut?: () => void;
+  useFullPageAuth?: boolean; 
 }
 
-export default function Header({ isAuthenticated = false, onSignIn, onSignUp, onSignOut }: HeaderProps) {
+export default function Header({ isAuthenticated = false, onSignIn, onSignUp, onSignOut, useFullPageAuth = false }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -221,7 +222,7 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                   scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base" // Bigger buttons initially
                 )}
               >
-                Sign In
+                Log In
               </button>
               <button
                 onClick={onSignUp}
@@ -230,7 +231,7 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                   scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base" // Bigger buttons initially
                 )}
               >
-                Sign Up
+                Get Started
               </button>
             </div>
           ) : (

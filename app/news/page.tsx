@@ -13,14 +13,17 @@ export default function News() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [useFullPageAuth, setUseFullPageAuth] = useState(false);
 
   const handleSignIn = () => {
     setAuthMode('signin');
+    setUseFullPageAuth(true); // Use modal for header sign in
     setAuthModalOpen(true);
   };
-
+  
   const handleSignUp = () => {
     setAuthMode('signup');
+    setUseFullPageAuth(true); // Use modal for header sign up
     setAuthModalOpen(true);
   };
 
@@ -30,6 +33,12 @@ export default function News() {
 
   const handleSignOut = () => {
     setIsAuthenticated(false);
+  };
+
+  const handleGetStarted = () => {
+    setAuthMode('signup');
+    setUseFullPageAuth(true); // Use full page for "Get Started"
+    setAuthModalOpen(true);
   };
 
   const portfolioProjects = [
@@ -55,7 +64,7 @@ export default function News() {
       title: 'Regal Heights',
       category: 'Industrial',
       description: 'Industrial facility modeled from point cloud scans, resolving issues with structural complexity.',
-      image: 'https://images.pexels.com/photos/2406642/pexels-photo-2406642.jpeg?auto=compress&cs=tinysrgb&w=800'
+      image: 'https://images.pexels.com/photos/209251/pexels-photo-209251.jpeg?cs=srgb&dl=pexels-pixabay-209251.jpg&fm=jpg'
     }
   ];
 
@@ -98,6 +107,7 @@ export default function News() {
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
         onSignOut={handleSignOut}
+        useFullPageAuth={true}
       />
 
       <PageBanner
@@ -242,7 +252,10 @@ export default function News() {
             <p className="text-gray-600 mb-4">
               For custom, bulk, or ongoing projects, contact us for tailored quotes and discounts.
             </p>
-            <button className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            <button 
+              onClick={handleGetStarted}
+              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
               Get a Quick Quote
             </button>
           </div>
@@ -347,6 +360,7 @@ export default function News() {
         mode={authMode}
         onModeChange={setAuthMode}
         onAuthenticate={handleAuthenticate}
+        useFullPage={useFullPageAuth}
       />
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { X, Mail, Lock, User } from 'lucide-react';
+import FullPageAuth from './FullPageAuth';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -9,9 +10,17 @@ interface AuthModalProps {
   mode: 'signin' | 'signup';
   onModeChange: (mode: 'signin' | 'signup') => void;
   onAuthenticate: () => void;
+  useFullPage?: boolean; // New prop to control full page vs modal
 }
 
-export default function AuthModal({ isOpen, onClose, mode, onModeChange, onAuthenticate }: AuthModalProps) {
+export default function AuthModal({ 
+  isOpen, 
+  onClose, 
+  mode, 
+  onModeChange, 
+  onAuthenticate,
+  useFullPage = false 
+}: AuthModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,7 +30,6 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange, onAuthe
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle authentication logic here
     console.log('Auth form submitted:', formData);
     onAuthenticate();
     onClose();
@@ -34,6 +42,20 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange, onAuthe
     }));
   };
 
+  // Use full page auth if specified
+  if (useFullPage) {
+    return (
+      <FullPageAuth
+        isOpen={isOpen}
+        onClose={onClose}
+        mode={mode}
+        onModeChange={onModeChange}
+        onAuthenticate={onAuthenticate}
+      />
+    );
+  }
+
+  // Original modal implementation
   if (!isOpen) return null;
 
   return (

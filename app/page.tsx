@@ -16,19 +16,23 @@ import {
   Award,
   ChevronRight
 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [useFullPageAuth, setUseFullPageAuth] = useState(false);
 
   const handleSignIn = () => {
     setAuthMode('signin');
+    setUseFullPageAuth(true); // Use modal for header sign in
     setAuthModalOpen(true);
   };
-
+  
   const handleSignUp = () => {
     setAuthMode('signup');
+    setUseFullPageAuth(true); // Use modal for header sign up
     setAuthModalOpen(true);
   };
 
@@ -38,6 +42,12 @@ export default function Home() {
 
   const handleSignOut = () => {
     setIsAuthenticated(false);
+  };
+
+  const handleGetStarted = () => {
+    setAuthMode('signup');
+    setUseFullPageAuth(true); // Use full page for "Get Started"
+    setAuthModalOpen(true);
   };
 
   const features = [
@@ -90,7 +100,7 @@ export default function Home() {
       title: 'Regal Heights',
       category: 'Industrial',
       description: 'Detailed structural and MEP modeling despite scanning limitations for this industrial facility.',
-      image: 'https://images.pexels.com/photos/2406642/pexels-photo-2406642.jpeg?auto=compress&cs=tinysrgb&w=800'
+      image: 'https://images.pexels.com/photos/209251/pexels-photo-209251.jpeg?cs=srgb&dl=pexels-pixabay-209251.jpg&fm=jpg'
     }
   ];
 
@@ -155,12 +165,17 @@ export default function Home() {
             Let's discuss how our BIM and CAD expertise can bring your vision to life with precision and innovation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+          <button 
+              onClick={handleGetStarted}
+              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
               Get a Quote
             </button>
-            <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium">
-              Contact Us
-            </button>
+            <Link href="/contact" passHref legacyBehavior>
+              <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium">
+                Contact Us
+              </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -173,6 +188,7 @@ export default function Home() {
         mode={authMode}
         onModeChange={setAuthMode}
         onAuthenticate={handleAuthenticate}
+        useFullPage={useFullPageAuth}
       />
     </div>
   );
