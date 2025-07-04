@@ -11,14 +11,17 @@ export default function About() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [useFullPageAuth, setUseFullPageAuth] = useState(true);
 
   const handleSignIn = () => {
     setAuthMode('signin');
+    setUseFullPageAuth(true);
     setAuthModalOpen(true);
   };
 
   const handleSignUp = () => {
     setAuthMode('signup');
+    setUseFullPageAuth(true);
     setAuthModalOpen(true);
   };
 
@@ -65,11 +68,12 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
+      <Header
         isAuthenticated={isAuthenticated}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
         onSignOut={handleSignOut}
+        useFullPageAuth={useFullPageAuth}
       />
 
       <PageBanner
@@ -253,6 +257,7 @@ export default function About() {
         mode={authMode}
         onModeChange={setAuthMode}
         onAuthenticate={handleAuthenticate}
+        useFullPage={useFullPageAuth}
       />
     </div>
   );
