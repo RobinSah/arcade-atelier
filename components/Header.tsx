@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronDown, Menu, X, Building, Cpu, Mail, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface HeaderProps {
   isAuthenticated?: boolean;
@@ -70,7 +71,6 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
             : "text-gray-700 hover:text-blue-600",
           className
         )}
-        onClick={closeDropdowns}
       >
         {children}
         {isActive && (
@@ -85,24 +85,19 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
       'fixed top-0 z-50 transition-all duration-500 ease-in-out bg-white/95 backdrop-blur-sm border-b border-gray-200',
       scrolled 
         ? 'py-4 px-8 shadow-lg left-0 right-0' // When scrolled - extends full width
-        : 'py-8 px-16 left-4 right-4 mt-6 rounded-lg shadow-md' // Initial state - extends almost full width with small gaps
+        : 'py-2 px-16 left-4 right-4 mt-6 rounded-lg shadow-md' // Initial state - extends almost full width with small gaps
     )}>
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity" onClick={closeMobileMenu}>
-          <div className={cn(
-            "bg-gradient-to-br from-blue-500 to-orange-500 rounded-lg flex items-center justify-center transition-all duration-300",
-            scrolled ? "w-10 h-10" : "w-12 h-12" // Bigger logo initially
-          )}>
-            <span className={cn(
-              "text-white font-bold transition-all duration-300",
-              scrolled ? "text-lg" : "text-xl" // Bigger text initially
-            )}>AA</span>
-          </div>
-          <span className={cn(
-            "font-bold text-gray-900 transition-all duration-300",
-            scrolled ? "text-xl" : "text-2xl" // Bigger company name initially
-          )}>Arcade Atelier</span>
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity pl-4 pr-6 py-2">
+        <Image
+          src="/Arcade-modified.png"
+          alt="Arcade Atelier Logo"
+          width={scrolled ? 120 : 168}
+          height={scrolled ? 64 : 80}
+          className="object-contain transition-all duration-300"
+          priority // This logo loads first
+        />
         </Link>
 
         {/* Desktop Navigation */}
@@ -134,7 +129,6 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                     key={item.href}
                     href={item.href}
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
-                    onClick={closeDropdowns}
                   >
                     {item.label}
                   </Link>
@@ -165,7 +159,6 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                       key={item.href}
                       href={item.href}
                       className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
-                      onClick={closeDropdowns}
                     >
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
@@ -273,12 +266,12 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
       {mobileMenuOpen && (
         <div className="lg:hidden mt-4 bg-white border-t border-gray-200 rounded-b-lg">
           <div className="px-4 py-6 space-y-4">
-            <NavLink href="/" className="block" onClick={closeMobileMenu}>
+            <NavLink href="/" className="block">
               Home
             </NavLink>
             
             <div className="space-y-2">
-              <NavLink href="/about" className="block" onClick={closeMobileMenu}>
+              <NavLink href="/about" className="block">
                 About Us
               </NavLink>
               <div className="pl-4 space-y-2">
@@ -287,7 +280,6 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                     key={item.href}
                     href={item.href}
                     className="block text-gray-600 hover:text-blue-600 transition-colors"
-                    onClick={closeMobileMenu}
                   >
                     {item.label}
                   </Link>
@@ -296,7 +288,7 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
             </div>
 
             <div className="space-y-2">
-              <NavLink href="/services" className="block" onClick={closeMobileMenu}>
+              <NavLink href="/services" className="block">
                 Services
               </NavLink>
               <div className="pl-4 space-y-2">
@@ -307,7 +299,6 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
                       key={item.href}
                       href={item.href}
                       className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors"
-                      onClick={closeMobileMenu}
                     >
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
@@ -317,17 +308,17 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
               </div>
             </div>
 
-            <NavLink href="/news" className="block" onClick={closeMobileMenu}>
+            <NavLink href="/news" className="block">
               News
             </NavLink>
             
             {isAuthenticated && (
-              <NavLink href="/dashboard" className="block" onClick={closeMobileMenu}>
+              <NavLink href="/dashboard" className="block">
                 Dashboard
               </NavLink>
             )}
             
-            <NavLink href="/contact" className="block" onClick={closeMobileMenu}>
+            <NavLink href="/contact" className="block">
               Contact Us
             </NavLink>
 
