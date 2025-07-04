@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -26,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'contact@thearcadeatelier.com', // Use your verified domain
+      from: 'contact@thearcadeatelier.com',
       to: ['info@thearcadeatelier.com'],
       subject: `Contact Form: ${subject}`,
       html: `
@@ -52,7 +54,7 @@ export async function POST(request: NextRequest) {
           </div>
         </div>
       `,
-      replyTo: email, // Allow direct reply to the contact person
+      replyTo: email,
     });
 
     if (error) {

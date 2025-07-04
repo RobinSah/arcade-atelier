@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -25,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     // Send notification to your team
     const { data: notificationData, error: notificationError } = await resend.emails.send({
-      from: 'newsletter@thearcadeatelier.com', // Use your verified domain
+      from: 'newsletter@thearcadeatelier.com',
       to: ['info@thearcadeatelier.com'],
       subject: 'New Newsletter Subscription',
       html: `
@@ -56,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     // Send welcome email to subscriber
     const { data: welcomeData, error: welcomeError } = await resend.emails.send({
-      from: 'newsletter@thearcadeatelier.com', // Use your verified domain
+      from: 'newsletter@thearcadeatelier.com',
       to: [email],
       subject: 'Welcome to Arcade Atelier Newsletter!',
       html: `
