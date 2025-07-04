@@ -120,7 +120,7 @@ export default function FullPageAuth({
         </div>
 
         {/* Right Side - Form Section */}
-        <div className="w-full lg:w-1/2 flex flex-col">
+        <div className="w-full lg:w-1/2 flex flex-col h-screen">
           {/* Header */}
           <div className="flex items-center justify-between p-6 lg:p-8">
             <button
@@ -139,7 +139,7 @@ export default function FullPageAuth({
           </div>
 
           {/* Form Container */}
-          <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
+          <div className="flex-1 flex items-center justify-center p-6 lg:p-12 overflow-auto">
             <div className="w-full max-w-md">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
