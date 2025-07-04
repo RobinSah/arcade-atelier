@@ -215,24 +215,26 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
               "flex items-center transition-all duration-300",
               scrolled ? "space-x-2" : "space-x-3" // More spacing initially
             )}>
-              <button
-                onClick={onSignIn}
-                className={cn(
-                  "text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium",
-                  scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base" // Bigger buttons initially
-                )}
-              >
-                Log In
-              </button>
-              <button
-                onClick={onSignUp}
-                className={cn(
-                  "bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium",
-                  scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base" // Bigger buttons initially
-                )}
-              >
-                Get Started
-              </button>
+              <Link href="/auth?mode=signin">
+                <button
+                  className={cn(
+                    "text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium",
+                    scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base"
+                  )}
+                >
+                  Log In
+                </button>
+              </Link>
+              <Link href="/auth?mode=signup">
+                <button
+                  className={cn(
+                    "bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium",
+                    scrolled ? "px-3 py-2 text-sm" : "px-4 py-2.5 text-base"
+                  )}
+                >
+                  Get Started
+                </button>
+              </Link>
             </div>
           ) : (
             <button
@@ -342,24 +344,20 @@ export default function Header({ isAuthenticated = false, onSignIn, onSignUp, on
               
               {!isAuthenticated ? (
                 <div className="space-y-2">
-                  <button
-                    onClick={() => {
-                      onSignIn?.();
-                      closeMobileMenu();
-                    }}
-                    className="w-full px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors text-left"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => {
-                      onSignUp?.();
-                      closeMobileMenu();
-                    }}
-                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Sign Up
-                  </button>
+                  <Link href="/auth?mode=signin">
+                    <button
+                      className="w-full px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors text-left"
+                    >
+                      Sign In
+                    </button>
+                  </Link>
+                  <Link href="/auth?mode=signup">
+                    <button
+                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Sign Up
+                    </button>
+                  </Link>
                 </div>
               ) : (
                 <button

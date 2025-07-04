@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import AuthModal from '@/components/AuthModal';
 import FeatureCard from '@/components/FeatureCard';
 import ProjectCard from '@/components/ProjectCard';
 import HeroCarousel from '@/components/HeroCarousel';
@@ -19,37 +18,6 @@ import {
 import Link from 'next/link';
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [useFullPageAuth, setUseFullPageAuth] = useState(false);
-
-  const handleSignIn = () => {
-    setAuthMode('signin');
-    setUseFullPageAuth(true); // Use modal for header sign in
-    setAuthModalOpen(true);
-  };
-  
-  const handleSignUp = () => {
-    setAuthMode('signup');
-    setUseFullPageAuth(true); // Use modal for header sign up
-    setAuthModalOpen(true);
-  };
-
-  const handleAuthenticate = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handleSignOut = () => {
-    setIsAuthenticated(false);
-  };
-
-  const handleGetStarted = () => {
-    setAuthMode('signup');
-    setUseFullPageAuth(true); // Use full page for "Get Started"
-    setAuthModalOpen(true);
-  };
-
   const features = [
     {
       icon: Building,
@@ -106,12 +74,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        isAuthenticated={isAuthenticated}
-        onSignIn={handleSignIn}
-        onSignUp={handleSignUp}
-        onSignOut={handleSignOut}
-      />
+      <Header />
 
       {/* Hero Carousel */}
       <HeroCarousel />
@@ -165,12 +128,11 @@ export default function Home() {
             Let's discuss how our BIM and CAD expertise can bring your vision to life with precision and innovation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button 
-              onClick={handleGetStarted}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Get a Quote
-            </button>
+            <Link href="/auth?mode=signup">
+              <button className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                Get a Quote
+              </button>
+            </Link>
             <Link href="/contact" passHref legacyBehavior>
               <button className="px-8 py-3 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-medium">
                 Contact Us
@@ -181,15 +143,6 @@ export default function Home() {
       </section>
 
       <Footer />
-
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        mode={authMode}
-        onModeChange={setAuthMode}
-        onAuthenticate={handleAuthenticate}
-        useFullPage={useFullPageAuth}
-      />
     </div>
   );
 }
